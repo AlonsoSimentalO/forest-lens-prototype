@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#20392d">
+  <meta name="description" content="Explore forest management choices through a simulated forest view.">
+  <title>Forest Lens · Explore possible futures</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%232e4837'/%3E%3Cpath d='M20 6 9 24h7l-5 7h18l-5-7h7Z' fill='%23d9e7be'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Forest Lens home"><span class="brand-mark" data-icon="tree"></span><span>forest<span class="brand-light">lens</span><span class="brand-dot">.</span></span></a>
+    <div class="header-caption">A different perspective on our forests</div>
+    <div class="header-actions"><button id="camera-button" class="camera-button" aria-label="Camera view, simulated" title="Simulated camera view"><span data-icon="camera"></span><span>Camera</span></button><button id="about-button" class="about-button" aria-label="About this prototype"><span data-icon="info"></span></button></div>
+  </header>
+  <main class="workspace">
+    <section class="forest-view" aria-label="Simulated forest camera view">
+      <img class="forest-background" src="/assets/forest-camera.png" alt="Photorealistic generated view of a spruce forest, with moss and a path between tall trees">
+      <div class="view-shade"></div>
+      <div class="scene-topbar">
+        <div class="location-hud" id="location-hud"><div class="location-row"><span class="location-icon" data-icon="pin"></span><div class="zone-control"><label for="zone-select">EXPLORING</label><select id="zone-select" aria-label="Select a sample forest zone"></select></div><button id="location-button" class="location-button" title="Find a sample zone using GPS" aria-label="Use my GPS location"><span data-icon="locate"></span></button></div><p class="location-status" id="location-status" role="status">Sample forest zone · Finland</p></div>
+        <span class="view-label"><span class="live-dot"></span><span id="view-mode">SIMULATED VIEW</span></span>
+      </div>
+      <div class="viewfinder" aria-label="Illustrative forest overlay">
+        <div class="frame-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div class="forest-tag"><span class="tag-marker" data-icon="tree"></span><span class="tag-copy"><span class="tag-kicker">CURRENT FOREST</span><strong id="scene-forest-type">Managed spruce forest</strong><span id="scene-priority">Timber production</span></span></div>
+        <span class="scene-caption">One forest. Different possible futures.</span>
+      </div>
+      <section class="decision-panel" aria-label="Forest management explorer">
+        <div class="panel-inner">
+          <div class="panel-heading"><div><span class="eyebrow" id="metrics-kicker">THE FOREST TODAY</span><h1 id="panel-title">A closer look.</h1></div><details class="forest-profile-overlay" id="forest-profile-overlay"><summary>Forest profile <span data-icon="arrow"></span></summary><section class="profile-section" aria-labelledby="profile-title"><div class="section-title"><span class="step-number">01</span><h2 id="profile-title">Current forest</h2><span class="section-line"></span></div><div class="profile-card"><div class="profile-card-heading"><span class="profile-tree" data-icon="trees"></span><div><h3 id="forest-type"></h3><p>Current priority: <span id="current-priority"></span></p></div></div><div id="profile-metrics" class="profile-metrics"></div></div></section></details></div>
+          <div class="scene-metrics" id="scene-metrics" role="group" aria-label="Explore forest indicators"></div>
+          <p class="metric-context" id="metric-context">Current conditions · illustrative sample data</p>
+          <section class="scenario-section" aria-labelledby="scenario-title"><div class="section-title"><h2 id="scenario-title">What would you prioritise?</h2><button id="reset-scenario" type="button" hidden>Reset</button></div><div id="scenario-options" class="scenario-options" role="group" aria-label="Management priority"></div></section>
+          <div class="guide-wrap">
+        <div class="guide-bubble" id="guide-bubble"><div class="guide-heading"><span>YOUR FOREST GUIDE</span><button id="dismiss-guide" aria-label="Dismiss guide explanation"><span data-icon="close"></span></button></div><p id="guide-text" aria-live="polite"></p><div class="guide-foot"><span class="tiny-dot"></span> A little context for your next choice</div></div>
+        <button class="guide-character" id="guide-toggle" aria-label="Hide forest guide explanation" aria-expanded="true" aria-controls="guide-bubble">
+          <svg viewBox="0 0 130 154" role="img" aria-label="Illustrated forest ranger"><ellipse cx="65" cy="146" rx="45" ry="7" fill="#0e271c" opacity=".2"/><path d="M24 143v-30c0-20 17-31 41-31s42 11 42 31v30" fill="#a6b776" stroke="#304334" stroke-width="3"/><path d="m53 85 12 19 14-19" fill="#f0d3aa" stroke="#304334" stroke-width="3"/><path d="m41 91 13 27 11-14 12 14 13-27M65 105v38" fill="none" stroke="#304334" stroke-width="3"/><path d="M85 119h12v15H85z" fill="#e7d49d" stroke="#304334" stroke-width="2"/><path d="m88 127 3-5 3 5h-2v3h-2v-3" fill="#304334"/><path d="M37 55c-14-6-14 18 0 17m56-17c14-6 14 18 0 17" fill="#e6b98e" stroke="#304334" stroke-width="3"/><path d="M36 42v22c0 23 12 34 29 34s29-11 29-34V42" fill="#f0d3aa" stroke="#304334" stroke-width="3"/><path d="M36 57V40h58v18l-10-8-8-12-21 12z" fill="#514837"/><path d="M52 65v3m27-3v3" stroke="#304334" stroke-width="4" stroke-linecap="round"/><path d="m64 67-3 9h6m-12 6q10 7 20 0" fill="none" stroke="#73533d" stroke-width="2.5" stroke-linecap="round"/><ellipse cx="47" cy="75" rx="6" ry="3" fill="#dea68a" opacity=".65"/><ellipse cx="83" cy="75" rx="6" ry="3" fill="#dea68a" opacity=".65"/><path d="m36 35 9-22q4-6 12-2l8 4 10-4q8-3 12 4l7 22" fill="#a6b776" stroke="#304334" stroke-width="3"/><path d="M37 31q29 8 56 0l2 10H35z" fill="#586c44" stroke="#304334" stroke-width="2"/><path d="M23 39q42 9 83 0l6 9q-47 15-95 0z" fill="#b7c28d" stroke="#304334" stroke-width="3"/><path d="M34 118v25m62-4v4" stroke="#304334" stroke-width="3" stroke-linecap="round"/></svg>
+          <span class="guide-name">Meet your guide <span data-icon="chat"></span></span>
+        </button>
+      </div>
+          <div class="dock-footer"><span id="scenario-caption" aria-live="polite">Explore a priority to see what changes.</span><button id="toggle-results" type="button" aria-expanded="false" aria-controls="scenario-results" disabled>Explore trade-offs <span data-icon="arrow"></span></button></div>
+        </div>
+      </section>
+      <div class="scene-insight" id="scene-insight" hidden><button id="close-insight" aria-label="Close indicator explanation">×</button><strong id="insight-title"></strong><p id="insight-text"></p></div>
+      <div class="scenario-results" id="scenario-results" hidden>
+          <div class="sheet-header"><span class="eyebrow">YOUR MANAGEMENT SCENARIO</span><button id="close-results" type="button" aria-label="Close scenario details">×</button></div>
+          <section aria-labelledby="changes-title"><div class="results-heading"><h2 id="changes-title">What changes here?</h2><span id="selected-label" class="selected-label"></span></div><ul id="actions-list" class="actions-list"></ul></section>
+          <section class="outcomes-section" aria-labelledby="outcomes-title"><h2 id="outcomes-title">Expected outcomes</h2><p class="comparison-note">Compared with continuing current management</p><div class="outcomes-grid" id="outcomes-grid"></div></section>
+          <section class="stakeholders-section" aria-labelledby="stakeholders-title"><h2 id="stakeholders-title">Who is affected?</h2><div id="stakeholders-list" class="stakeholders-list"></div></section>
+        </div>
+      <div class="view-bottomline"><span data-icon="scan"></span><span>Simulated AR · sample data</span><span>FOREST LENS / 01</span></div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <dialog id="about-dialog"><button class="dialog-close" id="close-about" aria-label="Close about"><span data-icon="close"></span></button><span class="eyebrow">ABOUT THIS PROTOTYPE</span><h2>A different perspective<br>on forest management.</h2><p>Explore four management priorities using predefined forest zones and illustrative outcomes.</p><p>The forest image is a generated photograph used to simulate a camera view. The camera button is a UI demonstration and does not request camera access. The overlay represents sample zone information, without recognising or tracking trees.</p><p>The guide uses predefined text. GPS is optional and stays in your browser. No forest datasets, AI chat, carbon valuation, or camera feed are connected.</p><button class="primary-button" id="got-it">Back to the forest <span data-icon="arrow"></span></button></dialog>
+</body>
+</html>
